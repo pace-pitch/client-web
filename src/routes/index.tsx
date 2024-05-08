@@ -8,23 +8,13 @@ export const router = createBrowserRouter([
   {
     path: "/sessions",
     element: <div>Session List</div>,
-    children: [
-      {
-        path: "/:sessionId",
-        element: <div>Session</div>,
-        children: [
-          {
-            path: "records",
-            element: <div>Record List</div>,
-            children: [
-              {
-                path: "/:recordId",
-                element: <div>Record</div>,
-              },
-            ],
-          },
-        ],
-      },
-    ],
+  },
+  {
+    path: "/sessions/:sessionId/records",
+    element: <div>Record List</div>,
+  },
+  {
+    path: "/sessions/:sessionId/records/:recordId",
+    element: <div>Record</div>,
   },
 ]);
