@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { RecordAnalysis } from "../features/record";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +16,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/sessions/:sessionId/records/:recordId",
-    element: <div>Record</div>,
+    element: <RecordAnalysis />,
   },
 ]);
