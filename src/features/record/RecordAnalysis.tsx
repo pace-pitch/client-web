@@ -44,6 +44,7 @@ export function RecordAnalysis() {
         value={played}
         onChange={(e) => {
           handleSeek(parseFloat(e.target.value));
+          setIsPlaying(false);
         }}
       />
     </div>
