@@ -75,9 +75,13 @@ const CustomTooltip = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div>
+      <div className={styles.tooltip}>
         {payload.map((p) => (
-          <p key={p.dataKey} style={{ color: p.stroke }}>
+          <p
+            key={p.dataKey}
+            className={styles.tooltipLabel}
+            style={{ color: p.stroke }}
+          >
             {p.name}: {p.value}
           </p>
         ))}
@@ -102,42 +106,53 @@ export function RecordAnalysis() {
     }
   };
 
+  const length = data.length;
+
   return (
     <div className={styles.wrapper}>
-      <ReactPlayer
-        playing={isPlaying}
-        onProgress={(progressProps) => {
-          setPlayed(progressProps.played);
-        }}
-        progressInterval={1000 / 30}
-        ref={videoRef}
-        width="100%"
-        height="auto"
-        url={TestVideo}
-        controls={false}
-        playsinline
-        loop
-      />
-      <button
-        onClick={() => {
-          setIsPlaying(!isPlaying);
-        }}
-      >
-        재생
-      </button>
-      <input
-        style={{
-          width: X_WIDTH,
-        }}
-        type="range"
-        min={0}
-        max={1}
-        step={1 / 1_000_000}
-        value={played}
-        onChange={(e) => {
-          handleSeek(parseFloat(e.target.value));
-        }}
-      />
+      <div className={styles.videoWrapper}>
+        <ReactPlayer
+          playing={isPlaying}
+          onProgress={(progressProps) => {
+            setPlayed(progressProps.played);
+          }}
+          progressInterval={1000 / 30}
+          ref={videoRef}
+          width="100%"
+          height="100%"
+          url={TestVideo}
+          controls={false}
+          playsinline
+          loop
+        />
+
+        <div className={styles.playButtonWrapper}>
+          <button
+            onClick={() => {
+              setIsPlaying(!isPlaying);
+            }}
+          >
+            재생
+          </button>
+        </div>
+
+        <div className={styles.inputWrapper}>
+          <input
+            style={{
+              width: X_WIDTH,
+            }}
+            type="range"
+            min={0}
+            max={1}
+            step={1 / 1_000_000}
+            value={played}
+            onChange={(e) => {
+              handleSeek(parseFloat(e.target.value));
+            }}
+          />
+        </div>
+      </div>
+
       <LineChart
         width={X_WIDTH}
         height={256}
@@ -153,7 +168,10 @@ export function RecordAnalysis() {
         <Line type="monotone" dataKey="root" stroke="#8884d8" dot={false} />
         <Line type="monotone" dataKey="pelvis" stroke="#82ca9d" dot={false} />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
-        <Tooltip content={CustomTooltip} />
+        <Tooltip
+          defaultIndex={Math.floor(played * (length - 1))}
+          content={CustomTooltip}
+        />
       </LineChart>
     </div>
   );
