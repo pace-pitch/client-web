@@ -95,6 +95,8 @@ export function RecordAnalysis() {
 
   const handleSeek = (time: number) => {
     setPlayed(time);
+    setIsPlaying(false);
+
     if (videoRef.current) {
       videoRef.current.seekTo(time);
     }
@@ -112,6 +114,8 @@ export function RecordAnalysis() {
         width="100%"
         height="auto"
         url={TestVideo}
+        controls={false}
+        playsinline
         loop
       />
       <button
@@ -132,7 +136,6 @@ export function RecordAnalysis() {
         value={played}
         onChange={(e) => {
           handleSeek(parseFloat(e.target.value));
-          setIsPlaying(false);
         }}
       />
       <LineChart
