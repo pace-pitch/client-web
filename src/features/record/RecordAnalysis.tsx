@@ -3,6 +3,7 @@ import TestVideo from "../../assets/fps60.mp4";
 import styles from "./RecordAnalysis.module.scss";
 import ReactPlayer from "react-player";
 import { LineChart, Line, CartesianGrid, Legend, Tooltip } from "recharts";
+import { Slider } from "@/components/ui/slider";
 
 const X_WIDTH = 350;
 
@@ -137,17 +138,16 @@ export function RecordAnalysis() {
         </div>
 
         <div className={styles.inputWrapper}>
-          <input
+          <Slider
             style={{
               width: X_WIDTH,
             }}
-            type="range"
+            value={[played]}
             min={0}
             max={1}
             step={1 / 1_000_000}
-            value={played}
-            onChange={(e) => {
-              handleSeek(parseFloat(e.target.value));
+            onValueChange={(value) => {
+              handleSeek(value[0]);
             }}
           />
         </div>
@@ -159,7 +159,6 @@ export function RecordAnalysis() {
         data={data}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         onMouseMove={(e) => {
-          console.log(e);
           const x = e.activeCoordinate?.x ?? 0;
           handleSeek(x / X_WIDTH);
         }}
