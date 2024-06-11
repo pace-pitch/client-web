@@ -147,6 +147,7 @@ export function RecordAnalysis() {
           height="100%"
           url={TestVideo}
           controls={false}
+          muted
           playsinline
           loop
         />
