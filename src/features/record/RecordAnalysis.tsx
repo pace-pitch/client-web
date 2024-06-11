@@ -1,11 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TestVideo from "../../assets/fps60.mp4";
 import styles from "./RecordAnalysis.module.scss";
 import ReactPlayer from "react-player";
 import { LineChart, Line, CartesianGrid, Legend, Tooltip } from "recharts";
 import { Slider } from "@/components/ui/slider";
 
-const X_WIDTH = 350;
+import PlayIcon from "@/assets/play-fill.svg";
+import PauseIcon from "@/assets/pause-fill.svg";
+
+const X_WIDTH = 393 - 16;
 
 const data = [
   {
@@ -109,9 +112,30 @@ export function RecordAnalysis() {
 
   const length = data.length;
 
+  const [showButton, setShowButton] = useState(false);
+
+  useEffect(() => {
+    if (!showButton) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setShowButton(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [showButton]);
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.videoWrapper}>
+      <div
+        className={styles.videoWrapper}
+        onClick={() => {
+          setShowButton((prev) => !prev);
+        }}
+      >
         <ReactPlayer
           playing={isPlaying}
           onProgress={(progressProps) => {
@@ -128,13 +152,19 @@ export function RecordAnalysis() {
         />
 
         <div className={styles.playButtonWrapper}>
-          <button
-            onClick={() => {
-              setIsPlaying(!isPlaying);
-            }}
-          >
-            재생
-          </button>
+          {showButton && (
+            <button
+              onClick={() => {
+                setIsPlaying(!isPlaying);
+              }}
+            >
+              {isPlaying ? (
+                <img color="#ffffff" width={64} alt="" src={PauseIcon} />
+              ) : (
+                <img color="#ffffff" width={64} alt="" src={PlayIcon} />
+              )}
+            </button>
+          )}
         </div>
 
         <div className={styles.inputWrapper}>
