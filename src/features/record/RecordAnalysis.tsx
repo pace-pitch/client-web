@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import TestVideo from "../../assets/fps60.mp4";
 import styles from "./RecordAnalysis.module.scss";
 import ReactPlayer from "react-player";
 import { LineChart, Line, CartesianGrid, Legend, Tooltip } from "recharts";
@@ -7,10 +6,13 @@ import { Slider } from "@/components/ui/slider";
 
 import PlayIcon from "@/assets/play-fill.svg";
 import PauseIcon from "@/assets/pause-fill.svg";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/api";
 
 const X_WIDTH = 393 - 16;
 
-const data = [
+const sample_data = [
   {
     root: 60,
     pelvis: 60,
@@ -97,6 +99,23 @@ const CustomTooltip = ({
 };
 
 export function RecordAnalysis() {
+  const { sessionId, pitchId } = useParams<{
+    sessionId: string;
+    pitchId: string;
+  }>();
+
+  const { data } = useQuery({
+    queryKey: ["session", sessionId, "pitches", pitchId],
+    queryFn: async () => {
+      const response = await api.get(
+        `/sessions/${sessionId}/pitches/${pitchId}`
+      );
+      return response.data;
+    },
+  });
+
+  console.log(data);
+
   const videoRef = useRef<ReactPlayer>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [played, setPlayed] = useState(0);
@@ -110,7 +129,7 @@ export function RecordAnalysis() {
     }
   };
 
-  const length = data.length;
+  const length = sample_data.length;
 
   const [showButton, setShowButton] = useState(false);
 
@@ -136,21 +155,24 @@ export function RecordAnalysis() {
           setShowButton((prev) => !prev);
         }}
       >
-        <ReactPlayer
-          playing={isPlaying}
-          onProgress={(progressProps) => {
-            setPlayed(progressProps.played);
-          }}
-          progressInterval={1000 / 30}
-          ref={videoRef}
-          width="100%"
-          height="100%"
-          url={TestVideo}
-          controls={false}
-          muted
-          playsinline
-          loop
-        />
+        {data?.videoUrl && (
+          <ReactPlayer
+            playing={isPlaying}
+            onProgress={(progressProps) => {
+              setPlayed(progressProps.played);
+            }}
+            progressInterval={1000 / 30}
+            ref={videoRef}
+            width="100%"
+            height="100%"
+            url={data.videoUrl}
+            // url="https://s3.yageun.pro/bucket/video/019008f8-ae36-751c-9214-5dacdba708f9/0190093a-ab0d-7466-b3f3-296df1172a0b.mov"
+            controls={false}
+            muted
+            playsinline
+            loop
+          />
+        )}
 
         <div className={styles.playButtonWrapper}>
           {showButton && (
@@ -190,7 +212,7 @@ export function RecordAnalysis() {
           <LineChart
             width={X_WIDTH}
             height={256}
-            data={data}
+            data={sample_data}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
             onMouseMove={(e) => {
               const x = e.activeCoordinate?.x ?? 0;
@@ -222,7 +244,7 @@ export function RecordAnalysis() {
           <LineChart
             width={X_WIDTH}
             height={256}
-            data={data}
+            data={sample_data}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
             onMouseMove={(e) => {
               const x = e.activeCoordinate?.x ?? 0;

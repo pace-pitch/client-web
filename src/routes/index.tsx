@@ -11,11 +11,11 @@ export const router = createBrowserRouter([
     element: <div>Session List</div>,
   },
   {
-    path: "/sessions/:sessionId/records",
+    path: "/sessions/:sessionId/pitches",
     element: <div>Record List</div>,
   },
   {
-    path: "/sessions/:sessionId/records/:recordId",
+    path: "/sessions/:sessionId/pitches/:pitchId",
     element: <RecordAnalysis />,
   },
 ]);
