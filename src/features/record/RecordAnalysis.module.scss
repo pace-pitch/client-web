@@ -6,6 +6,24 @@
   width: 100%;
 }
 
+.analysis {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .graph {
+    position: relative;
+
+    .graphTitle {
+      position: absolute;
+      padding: 0px 16px;
+      width: 100%;
+      font-weight: bold;
+    }
+  }
+}
+
 .videoWrapper {
   position: sticky;
   top: 0;

@@ -183,63 +183,72 @@ export function RecordAnalysis() {
           />
         </div>
       </div>
-      <LineChart
-        width={X_WIDTH}
-        height={256}
-        data={data}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        onMouseMove={(e) => {
-          const x = e.activeCoordinate?.x ?? 0;
-          handleSeek(x / X_WIDTH);
-        }}
-      >
-        <Legend verticalAlign="top" height={36} />
-        <Line type="monotone" dataKey="root" stroke="#8884d8" dot={false} />
-        <Line type="monotone" dataKey="pelvis" stroke="#82ca9d" dot={false} />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
-        <Tooltip
-          defaultIndex={Math.floor(played * (length - 1))}
-          content={CustomTooltip}
-        />
-      </LineChart>{" "}
-      <LineChart
-        width={X_WIDTH}
-        height={256}
-        data={data}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        onMouseMove={(e) => {
-          const x = e.activeCoordinate?.x ?? 0;
-          handleSeek(x / X_WIDTH);
-        }}
-      >
-        <Legend verticalAlign="top" height={36} />
-        <Line type="monotone" dataKey="root" stroke="#8884d8" dot={false} />
-        <Line type="monotone" dataKey="pelvis" stroke="#82ca9d" dot={false} />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
-        <Tooltip
-          defaultIndex={Math.floor(played * (length - 1))}
-          content={CustomTooltip}
-        />
-      </LineChart>{" "}
-      <LineChart
-        width={X_WIDTH}
-        height={256}
-        data={data}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        onMouseMove={(e) => {
-          const x = e.activeCoordinate?.x ?? 0;
-          handleSeek(x / X_WIDTH);
-        }}
-      >
-        <Legend verticalAlign="top" height={36} />
-        <Line type="monotone" dataKey="root" stroke="#8884d8" dot={false} />
-        <Line type="monotone" dataKey="pelvis" stroke="#82ca9d" dot={false} />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" vertical={false} />
-        <Tooltip
-          defaultIndex={Math.floor(played * (length - 1))}
-          content={CustomTooltip}
-        />
-      </LineChart>
+
+      <section className={styles.analysis}>
+        <div className={styles.graph}>
+          <h2 className={styles.graphTitle}>Kinematic sequence</h2>
+          <LineChart
+            width={X_WIDTH}
+            height={256}
+            data={data}
+            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+            onMouseMove={(e) => {
+              const x = e.activeCoordinate?.x ?? 0;
+              handleSeek(x / X_WIDTH);
+            }}
+          >
+            <Legend verticalAlign="top" align="right" height={36} />
+            <Line type="monotone" dataKey="root" stroke="#8884d8" dot={false} />
+            <Line
+              type="monotone"
+              dataKey="pelvis"
+              stroke="#82ca9d"
+              dot={false}
+            />
+            <CartesianGrid
+              stroke="#ccc"
+              strokeDasharray="5 5"
+              vertical={false}
+            />
+            <Tooltip
+              defaultIndex={Math.floor(played * (length - 1))}
+              content={CustomTooltip}
+            />
+          </LineChart>
+        </div>
+
+        <div className={styles.graph}>
+          <h2 className={styles.graphTitle}>Kinematic sequence</h2>
+          <LineChart
+            width={X_WIDTH}
+            height={256}
+            data={data}
+            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+            onMouseMove={(e) => {
+              const x = e.activeCoordinate?.x ?? 0;
+              handleSeek(x / X_WIDTH);
+            }}
+          >
+            <Legend verticalAlign="top" align="right" height={36} />
+            <Line type="monotone" dataKey="root" stroke="#8884d8" dot={false} />
+            <Line
+              type="monotone"
+              dataKey="pelvis"
+              stroke="#82ca9d"
+              dot={false}
+            />
+            <CartesianGrid
+              stroke="#ccc"
+              strokeDasharray="5 5"
+              vertical={false}
+            />
+            <Tooltip
+              defaultIndex={Math.floor(played * (length - 1))}
+              content={CustomTooltip}
+            />
+          </LineChart>
+        </div>
+      </section>
     </div>
   );
 }
